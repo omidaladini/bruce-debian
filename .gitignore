@@ -1,0 +1,6 @@
+bruce-*
+*.dsc
+*.tar.gz
+*.build
+*.changes
+*.deb

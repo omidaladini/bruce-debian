@@ -1,0 +1,12 @@
+Source: bruce
+Priority: optional
+Section: net
+Maintainer: Omid Aladini <omidaladini@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), build-essential, scons, libsnappy-dev, libasan0, libboost-all-dev, git, g++
+Standards-Version: 3.9.4
+
+Package: bruce
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Producer daemon for Apache Kafka.
+ For more info refer to https://github.com/tagged/bruce

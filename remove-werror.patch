@@ -1,0 +1,13 @@
+diff --git a/SConstruct b/SConstruct
+index e6459d2..410908b 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -127,7 +127,7 @@ check_version_file(out.Dir('bruce').Dir('client').File('build_id.c').
+ # Environment.
+ prog_libs = {'pthread', 'dl', 'rt'}
+ gtest_libs = {'gtest', 'gtest_main', 'pthread'}
+-env = Environment(CCFLAGS=['-Wall', '-Wextra', '-Werror'],
++env = Environment(CCFLAGS=['-Wall', '-Wextra'],
+                   CPPDEFINES=[('SRC_ROOT', '\'"' + src.abspath + '"\'')],
+                   CPPPATH=[src, tclap],
+                   CXXFLAGS=['-std=c++11', '-Wold-style-cast'],
