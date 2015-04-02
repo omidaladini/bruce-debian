@@ -1,5 +1,24 @@
+bruce (1.0.12) UNRELEASED; urgency=medium
+
+  [ Omid Aladini ]
+  * Fix warn_unused_result warnings
+
+  [ Dave Peterson ]
+  * add a few syslog messages and eliminate IfLt0() in a few places
+  * update authors list
+
+  [ dsp ]
+  * Enable some extra compiler warnings and fix code so it compiles with new warnings enabled.
+
+  [ Ubuntu ]
+
+ -- Omid Aladini <omidaladini@gmail.com>  Thu, 02 Apr 2015 14:26:12 +0000
+
 bruce (1.0.9) unstable; urgency=low
 
+  [ Omid Aladini ]
   * Initial Release.
+
+  [ Ubuntu ]
 
  -- Omid Aladini <omidaladini@gmail.com>  Tue, 17 Feb 2015 18:02:46 +0000
