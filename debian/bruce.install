@@ -1,1 +1,12 @@
 out/release/bruce/bruce usr/bin
+out/release/bruce/client/libbruce_client.so usr/lib
+out/release/bruce/client/libbruce_client.a usr/lib
+
+config/debian_conf/etc/bruce/bruce_conf.xml etc/bruce
+config/debian_conf/etc/default/bruce etc/default
+config/debian_conf/etc/init.d/bruce etc/init.d
+
+src/bruce/client/bruce_client.h usr/include/bruce/client
+src/bruce/client/status_codes.h usr/include/bruce/client
+src/bruce/client/bruce_client_socket.h usr/include/bruce/client
+src/bruce/client/build_id.h usr/include/bruce/client

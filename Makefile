@@ -12,6 +12,7 @@ install: checkdeps
 	test -d bruce-$(VERSION) || git clone https://github.com/tagged/bruce.git bruce-$(VERSION)
 	cd bruce-$(VERSION) && git checkout -f tags/$(VERSION)
 	cp -R debian/ bruce-$(VERSION)/
+	cp -R debian_conf/ bruce-$(VERSION)/config/
 	cd bruce-$(VERSION) && debuild -us -uc
 
 checkdeps:
