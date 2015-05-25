@@ -7,4 +7,5 @@
 
 override_dh_auto_build:
 	cd src/bruce; scons -Q --up --release bruce
-
+	cd src/bruce/client; scons -Q --up --release libbruce_client.so
+	cd src/bruce/client; scons -Q --up --release libbruce_client.a
