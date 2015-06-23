@@ -1,0 +1,106 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides: bruce
+# Required-Start: $local_fs $remote_fs $syslog
+# Required-Stop: $local_fs $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: run bruce daemon
+# Description: Bruce is a producer daemon for Apache Kafka.
+### END INIT INFO
+
+set -e
+
+# /etc/init.d/bruce: start and stop the Bruce daemon
+
+BRUCE=/usr/bin/bruce
+
+test -x "$BRUCE" || exit 0
+
+umask 022
+
+if test -f /etc/default/bruce; then
+	. /etc/default/bruce
+fi
+
+. /lib/lsb/init-functions
+
+check_privsep_dir() {
+	# Create the PrivSep empty dir if necessary
+	if [ ! -d /var/run/bruce ]; then
+		mkdir /var/run/bruce
+		chmod 0755 /var/run/bruce
+	fi
+}
+
+case "$1" in
+	start)
+		check_privsep_dir
+		log_daemon_msg "Starting Bruce Service" "bruce" || true
+		# FIXME To write pidfile to /var/run/bruce/bruce.pid we need to start as root
+		# and then after the UNIX domain socket is bound, then switch to $USER
+		if start-stop-daemon --start --oknodo --pidfile "$PIDFILE" --chuid $USER:$GROUP \
+		                     --exec "$BRUCE" -- --daemon \
+		                     --protocol_version "$PROTOCOL_VERSION" \
+		                     --msg_buffer_max "$MSG_BUFFER_MAX" \
+		                     --status_port "$STATUSPORT" \
+		                     --receive_socket_name "$INPUT_SOCKET_NAME" \
+		                     --config_path $CONFIG_FILE; then
+			# XXX hack to manually generate pid file
+			PID=$(/usr/bin/pgrep -u $USER -f "$BRUCE")
+			/bin/echo $PID > $PIDFILE
+			
+			log_end_msg 0 || true
+		else
+			log_end_msg 1 || true
+		fi
+	;;
+	
+	stop)
+		log_daemon_msg "Stopping Bruce Service" "bruce" || true
+		if start-stop-daemon --stop --quiet --oknodo --user $USER --pidfile "$PIDFILE"; then
+			# XXX clean up manually generated pidfile
+			/bin/rm -f $PIDFILE
+			log_end_msg 0 || true
+		else
+			log_end_msg 1 || true
+		fi
+	;;
+	
+	#reload|force-reload)
+	#	log_daemon_msg "Reloading Bruce Service's configuration" "bruce" || true
+	#	if start-stop-daemon --stop --signal 1 --quiet --oknodo --pidfile /var/run/bruce/bruce.pid --exec "$BRUCE"; then
+	#		log_end_msg 0 || true
+	#	else
+	#		log_end_msg 1 || true
+	#	fi
+	#;;
+	
+	restart)
+		check_privsep_dir
+		log_daemon_msg "Restarting Bruce Service" "bruce" || true
+		start-stop-daemon --stop --quiet --oknodo --user $USER --retry 30 --pidfile "$PIDFILE"
+		if start-stop-daemon --start --oknodo --pidfile "$PIDFILE" --chuid $USER:$GROUP \
+		                     --exec "$BRUCE" -- --daemon \
+		                     --protocol_version "$PROTOCOL_VERSION" \
+		                     --msg_buffer_max "$MSG_BUFFER_MAX" \
+		                     --status_port "$STATUSPORT" \
+		                     --receive_socket_name "$INPUT_SOCKET_NAME" \
+		                     --config_path $CONFIG_FILE; then
+			log_end_msg 0 || true
+		else
+			log_end_msg 1 || true
+		fi
+	;;
+	
+	status)
+		status_of_proc -p "$PIDFILE" "$BRUCE" bruce && exit 0 || exit $?
+	;;
+	
+	*)
+		log_action_msg "Usage: /etc/init.d/bruce {start|stop|restart|status}" || true
+		exit 1
+esac
+
+exit 0

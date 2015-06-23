@@ -8,7 +8,8 @@ bruce (1.0.12) UNRELEASED; urgency=medium
   * update authors list
 
   [ dsp ]
-  * Enable some extra compiler warnings and fix code so it compiles with new warnings enabled.
+  * Enable some extra compiler warnings and fix code so it compiles with new
+    warnings enabled.
 
   [ Ubuntu ]
 

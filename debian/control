@@ -2,7 +2,7 @@ Source: bruce
 Priority: optional
 Section: net
 Maintainer: Omid Aladini <omidaladini@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), devscripts, build-essential, scons, libsnappy-dev, libasan0, libboost-all-dev, git, g++
+Build-Depends: debhelper (>= 8.0.0), devscripts, scons, libsnappy-dev, libasan0, libboost-all-dev, git
 Standards-Version: 3.9.4
 
 Package: bruce
